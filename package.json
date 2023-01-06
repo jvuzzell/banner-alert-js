@@ -1,0 +1,35 @@
+{
+    "name": "banner-alert-js",
+    "version": "0.9.0",
+    "description": "Offers state management and event bus for UI components. Use to create single page applications or add reactive components to projects.",
+    "main": "banner-alert.js",
+    "scripts": {
+        "test": "jest",
+        "test-watch": "jest --watch"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jvuzzell/banner-alert-js.git"
+    },
+    "keywords": [
+        "alert", 
+        "banner", 
+        "message", 
+        "notification"
+    ],
+    "author": "Joshua Uzzell <josh.uzzell@gmail.com> (https://uzzell.cc)",
+    "license": "SEE LICENSE IN license.txt",
+    "bugs": {
+        "url": "https://github.com/jvuzzell/banner-alert-js/issues"
+    },
+    "homepage": "https://github.com/jvuzzell/banner-alert-js#readme",
+    "devDependencies": {
+        "@babel/plugin-transform-modules-commonjs": "^7.20.7",
+        "@testing-library/dom": "^8.17.1",
+        "@testing-library/jest-dom": "^5.16.5",
+        "@testing-library/user-event": "^14.4.3",
+        "jest": "^28.1.3",
+        "jest-cli": "^29.3.1",
+        "jest-environment-jsdom": "^29.0.1"
+    }
+}
