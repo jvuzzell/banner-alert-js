@@ -1,7 +1,7 @@
 {
     "name": "banner-alert-js",
     "version": "0.9.0",
-    "description": "Offers state management and event bus for UI components. Use to create single page applications or add reactive components to projects.",
+    "description": "Offers methods for posting UI alerts.",
     "main": "banner-alert.js",
     "scripts": {
         "test": "jest",
