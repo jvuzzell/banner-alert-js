@@ -1,26 +1,26 @@
-var BannerAlert = (function() {
+export let BannerAlert = (() => {
 	
-	var store = {};
+	let store = {};
 	
-    var Constructor = function( options ) {
+    let Constructor = function( options ) {
 	
-		var state = {
+		let state = {
 			active : true
 		}
 		
-        var publicMethods = {};
-        var privateMethods = {};
+        let publicMethods = {};
+        let privateMethods = {};
         
-        var settings; 
+        let settings; 
         
         privateMethods.getNodeTemplate = function() {
 	        
-	        var nodeColumn   = document.createElement( 'div' );
-	        var nodeTemplate = document.createElement( 'div' );
-	        var messageNode  = document.createElement( 'p' );
-	        var buttonNode   = document.createElement( 'button' );
+	        let nodeColumn   = document.createElement( 'div' );
+	        let nodeTemplate = document.createElement( 'div' );
+	        let messageNode  = document.createElement( 'p' );
+	        let buttonNode   = document.createElement( 'button' );
 	        
-	        nodeColumn.className = 'v-col';
+	        nodeColumn.classList.add( ...settings.classList );
 			nodeColumn.setAttribute( 'data-ref', settings.id );
 			nodeTemplate.setAttribute( 'data-alert-message', settings.id );
 			nodeTemplate.setAttribute( 'data-message-type', settings.messageType ); 
@@ -29,7 +29,7 @@ var BannerAlert = (function() {
 			messageNode.innerHTML = settings.message;
 			
 			buttonNode.className = 'close-button';
-			buttonNode.innerHTML = 'x';
+			buttonNode.innerHTML = '&times;';
 			
 			privateMethods.closeAlertEventListener( buttonNode );
 			
@@ -51,10 +51,7 @@ var BannerAlert = (function() {
 
         privateMethods.hide = function( target ) {
 
-	        if( 
-				target.getAttribute( 'data-alert-message' ) !== null &&
-				target.parentElement.className === 'v-col'
-			) {
+	        if( target.getAttribute( 'data-alert-message' ) !== null ) {
 				target.parentElement.remove();
 			}
 
@@ -65,7 +62,7 @@ var BannerAlert = (function() {
         
         publicMethods.updateState = function( newState ) {
             
-            for( var setting in newState ) {
+            for( let setting in newState ) {
                 state[ setting ] = newState[ setting ];
             }
 
@@ -90,26 +87,22 @@ var BannerAlert = (function() {
 
         publicMethods.toggleParent = function() {
 		
-			var showParentContainer = false; 
-            var alertStore = getAllAlerts();
-            var storeKeys = Object.keys( alertStore );
+			let showParentContainer = false; 
+            let alertStore = getAllAlerts();
+            let storeKeys = Object.keys( alertStore );
 
-            // console.log( storeKeys );
-			for( var i = 0; i < storeKeys.length; i++) {
+			for( let i = 0; i < storeKeys.length; i++) {
 			
 				if( alertStore[ storeKeys[ i ] ].getState( 'active' ) ) {
 					showParentContainer = true; 
                 }
                 
                 if( i == storeKeys.length - 1 ) {
-                    // console.log( '(' + storeKeys.length + ')' + ' show parent containers: ' + showParentContainer );
-                    // console.log( storeKeys );
                     if( showParentContainer ) {
                         privateMethods.show( settings.parentContainer );
                     } else {
                         privateMethods.hide( settings.parentContainer );
                     }           
-
                 }
 				
             }
@@ -118,16 +111,15 @@ var BannerAlert = (function() {
 		
 		publicMethods.render = function() {
 			
-			var systemAlertContainer = privateMethods.getNodeTemplate( settings );
-			settings.target = systemAlertContainer.querySelector( '[data-alert-message]' );
+			let bannerAlertContainer = privateMethods.getNodeTemplate( settings );
+			settings.target = bannerAlertContainer.querySelector( '[data-alert-message]' );
 			
 			if( !settings.parentContainer ) {
 				alert( settings.message );
 			} else {
-				settings.parentContainer.prepend( systemAlertContainer );
+				settings.parentContainer.prepend( bannerAlertContainer );
 				publicMethods.toggleParent();
 
-				// Set time to disappear
 				setTimeout( function() { 
 					publicMethods.hideAlert();
 				}, settings.messageTtl );
@@ -136,13 +128,7 @@ var BannerAlert = (function() {
 		}
 		
 		publicMethods.init = function( options ) {
-			
 			settings = options;
-
-            if( settings == null || settings == undefined ) { console.error( 'System Alert, settings not provided upon initialization' ); return false; } 
-			
-			return true;	
-			
 		}
 		
 	    privateMethods.closeAlertEventListener = function( targetButton ) {
@@ -156,44 +142,34 @@ var BannerAlert = (function() {
 		    });
 		    
 	    }
-		
-		// Auto initialization
-		var initSuccess = publicMethods.init( options );
-		
-		if( initSuccess ) {
-			return publicMethods;	
-		} else {
-			console.warn( 'System Alert, failed to create ovalert id: ' + options.id, options );
-			return false;
-		}
-		
+
+		publicMethods.init( options );
+		return publicMethods;	
+
     }
     
-    var getAllAlerts = function( name, obj ) {
-
+    const getAllAlerts = function( name, obj ) {
         return store; 
-
     }
 
-	var storeBannerAlert = function( name, obj ) {
-		
+	const storeBannerAlert = function( name, obj ) {
 		store[ name ] = obj;
-		
 	}
 
-	var registerBannerAlert = function( messageType = 'message', message = 'Message not provide', parentContainer = false, messageTtl = 20000 ) {
+	const registerBannerAlert = function( messageType = 'message', message = 'Message not provide', parentContainer = false, messageTtl = 20000, classList = [] ) {
 
-		var moduleName = 'systemAlert';
-		var moduleId   = ensureUniqueKey( returnRandomKey( moduleName ), Object.keys( store ), moduleName ); 
+		let moduleName = 'systemAlert';
+		let moduleId   = ensureUniqueKey( returnRandomKey( moduleName ), Object.keys( store ), moduleName ); 
 
 		storeBannerAlert(
 			moduleId, 
-			new BannerAlert.launch({
+			new BannerAlert.init({
 				id          : moduleId,
 				message     : message,
 				messageTtl  : messageTtl,
 				messageType : messageType, 
-				parentContainer : parentContainer	
+				parentContainer : parentContainer, 
+				classList : classList	
 			})
 		);
 	
@@ -201,62 +177,26 @@ var BannerAlert = (function() {
 		
 	}
 
-    var ensureUniqueKey = function( newKey, existingKeys, moduleName ) {
+    const ensureUniqueKey = function( newKey, existingKeys, moduleName ) {
     
-        for( var i = 0; i < existingKeys.length; i++ ) {
-
+        for( let i = 0; i < existingKeys.length; i++ ) {
             if( newKey === existingKeys[ i ] ) { 
                 ensureUniqueKey( newKey, existingKeys, moduleName );
             }
-
         }
 
         return newKey;
         
     }
 
-    var returnRandomKey = function( moduleName ) {
-
+    const returnRandomKey = function( moduleName ) {
         return 'module_' + moduleName + '_' + Math.floor( Math.random() * Math.floor( 100000 ) );
-
     }
 	
     return {
+		init   : Constructor,
         getAllAlerts : getAllAlerts,
-        launch   : Constructor,
         transmit : registerBannerAlert
     }
 
 })();
-
-/*
-// Potential Unit Test 
-(function(){
-		
-	function initBannerAlerts() {
-		var messageType = 'success'; 
-		var message     = 'The system approves your decision';
-		var messageTtl  = 3000; 
-		var parentContainer = document.querySelector( '.system-alerts' );
-	
-		BannerAlert.transmit( messageType, message, parentContainer, messageTtl );	
-		
-		BannerAlert.transmit( 'error', message, parentContainer, messageTtl );		
-	}
-	
-	runOnAppStart( 'initializeBannerAlertPlugin', initBannerAlerts );
-	
-})();
-*/
-
-/* 
-
-// Determine whether all alerts have been closed
-
-var alerts = BannerAlert.getAllAlerts();
-var alertKeys = Object.keys( alerts );
-for( var i = 0; i < alertKeys.length; i++ ) {
-    console.log( alertKeys[ i ], alerts[ alertKeys[ i ] ].getState() );
-}
-
-*/
