@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banner Alert Demo</title>
+    <link rel="stylesheet" href="./banner-alert-js/banner-alert.css">
+</head>
+<body>
+    <h2>Banner Alert</h2>
+    <div class="banner-alerts"></div>
+    <button onclick="window.triggerExampleAlerts();">Trigger Alert</button>
+
+    <script type="module">
+        import { BannerAlert } from '/banner-alert-js/banner-alert.js';
+        
+        window.triggerExampleAlerts = function() {
+            let messageType = 'success'; // Can be any value
+            let message     = 'This is a success alert';
+            let messageTtl  = 30000; // Measured in seconds
+            let parentContainer = document.querySelector( '.banner-alerts' ); // This container can be anywhere
+            let customClassList = [ 'v-col', 'black', 'panther' ];
+
+            BannerAlert.transmit( 
+                messageType, 
+                message, 
+                parentContainer, 
+                messageTtl, 
+                customClassList
+            );	
+            BannerAlert.transmit( 'money', "This is an error alert", parentContainer, messageTtl );
+            BannerAlert.transmit( 'warning', "This is a warning alert", parentContainer, messageTtl );
+            BannerAlert.transmit( 'message', "This is a message alert", parentContainer, messageTtl );	
+        }
+    </script>
+</body> 
+</html>
