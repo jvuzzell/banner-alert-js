@@ -1,6 +1,6 @@
 {
     "name": "banner-alert-js",
-    "version": "0.9.0",
+    "version": "0.10.0",
     "description": "Offers methods for posting UI alerts.",
     "main": "banner-alert.js",
     "scripts": {
@@ -12,9 +12,9 @@
         "url": "git+https://github.com/jvuzzell/banner-alert-js.git"
     },
     "keywords": [
-        "alert", 
-        "banner", 
-        "message", 
+        "alert",
+        "banner",
+        "message",
         "notification"
     ],
     "author": "Joshua Uzzell <josh.uzzell@gmail.com> (https://uzzell.cc)",
