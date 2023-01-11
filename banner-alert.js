@@ -80,33 +80,8 @@ export let BannerAlert = (() => {
         
         publicMethods.hideAlert = function() {
 
-            privateMethods.hide( settings.target );
-            publicMethods.toggleParent();
-            
-        }
+            privateMethods.hide( settings.target );    
 
-        publicMethods.toggleParent = function() {
-		
-			let showParentContainer = false; 
-            let alertStore = getAllAlerts();
-            let storeKeys = Object.keys( alertStore );
-
-			for( let i = 0; i < storeKeys.length; i++) {
-			
-				if( alertStore[ storeKeys[ i ] ].getState( 'active' ) ) {
-					showParentContainer = true; 
-                }
-                
-                if( i == storeKeys.length - 1 ) {
-                    if( showParentContainer ) {
-                        privateMethods.show( settings.parentContainer );
-                    } else {
-                        privateMethods.hide( settings.parentContainer );
-                    }           
-                }
-				
-            }
-            
         }
 		
 		publicMethods.render = function() {
@@ -118,7 +93,6 @@ export let BannerAlert = (() => {
 				alert( settings.message );
 			} else {
 				settings.parentContainer.prepend( bannerAlertContainer );
-				publicMethods.toggleParent();
 
 				setTimeout( function() { 
 					publicMethods.hideAlert();
