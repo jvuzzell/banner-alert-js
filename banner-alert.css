@@ -30,7 +30,7 @@
 	vertical-align: middle;
 }
 
-[data-alert-message] > p {
+[data-alert-message] > .message {
 	width: 100% - 25px;
 }
 

@@ -17,14 +17,15 @@ export let BannerAlert = (() => {
 	        
 	        let nodeColumn   = document.createElement( 'div' );
 	        let nodeTemplate = document.createElement( 'div' );
-	        let messageNode  = document.createElement( 'p' );
+	        let messageNode  = document.createElement( 'div' );
 	        let buttonNode   = document.createElement( 'button' );
 	        
 	        nodeColumn.classList.add( ...settings.classList );
 			nodeColumn.setAttribute( 'data-ref', settings.id );
 			nodeTemplate.setAttribute( 'data-alert-message', settings.id );
 			nodeTemplate.setAttribute( 'data-message-type', settings.messageType ); 
-			nodeTemplate.setAttribute( 'data-status', 'active' );
+			nodeTemplate.setAttribute( 'data-status', 'active' ); 
+			messageNode.classList.add( 'message' );
 			
 			messageNode.innerHTML = settings.message;
 			
