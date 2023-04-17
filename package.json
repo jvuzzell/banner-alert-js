@@ -1,6 +1,6 @@
 {
     "name": "banner-alert-js",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "description": "Offers methods for posting UI alerts.",
     "main": "banner-alert.js",
     "scripts": {
