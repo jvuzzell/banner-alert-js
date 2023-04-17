@@ -18,20 +18,20 @@ export let BannerAlert = (() => {
 	        let nodeColumn   = document.createElement( 'div' );
 	        let nodeTemplate = document.createElement( 'div' );
 	        let messageNode  = document.createElement( 'div' );
-	        let buttonNode   = document.createElement( 'button' );
+	        let buttonNode   = document.createElement( 'button' ); 
 	        
 	        nodeColumn.classList.add( ...settings.classList );
 			nodeColumn.setAttribute( 'data-ref', settings.id );
 			nodeTemplate.setAttribute( 'data-alert-message', settings.id );
 			nodeTemplate.setAttribute( 'data-message-type', settings.messageType ); 
 			nodeTemplate.setAttribute( 'data-status', 'active' ); 
-			messageNode.classList.add( 'message' );
+			messageNode.classList.add( 'message' ); 
 			
 			messageNode.innerHTML = settings.message;
-			
-			buttonNode.className = 'close-button';
-			buttonNode.innerHTML = '&times;';
-			
+		
+			buttonNode.classList.add( ...settings.buttonClassList, 'close-button' );
+			buttonNode.innerHTML = settings.buttonText;
+
 			privateMethods.closeAlertEventListener( buttonNode );
 			
 			nodeTemplate.appendChild( messageNode ); 
@@ -131,7 +131,15 @@ export let BannerAlert = (() => {
 		store[ name ] = obj;
 	}
 
-	const registerBannerAlert = function( messageType = 'message', message = 'Message not provide', parentContainer = false, messageTtl = 20000, classList = [] ) {
+	const registerBannerAlert = function( 
+		messageType = 'message', 
+		message = 'Message not provide', 
+		parentContainer = false, 
+		messageTtl = 20000, 
+		classList = [],
+		buttonClassList = [], 
+		buttonText = '&times;'
+	) {
 
 		let moduleName = 'systemAlert';
 		let moduleId   = ensureUniqueKey( returnRandomKey( moduleName ), Object.keys( store ), moduleName ); 
@@ -139,12 +147,14 @@ export let BannerAlert = (() => {
 		storeBannerAlert(
 			moduleId, 
 			new BannerAlert.init({
-				id          : moduleId,
-				message     : message,
-				messageTtl  : messageTtl,
-				messageType : messageType, 
+				id              : moduleId,
+				message         : message,
+				messageTtl      : messageTtl,
+				messageType     : messageType, 
 				parentContainer : parentContainer, 
-				classList : classList	
+				classList       : classList, 
+				buttonClassList : buttonClassList, 
+				buttonText      : buttonText, 
 			})
 		);
 	
